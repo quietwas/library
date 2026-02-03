@@ -1,0 +1,9 @@
+Script Goals
+✔ Create a function which iterates through library and displays the book @started(26-02-03 09:19) @done(26-02-03 09:31) @lasted(12m40s)
+☐ Create a function which connects to the "New Book" button and adds the book to the library
+
+Style Goals
+✔ Create "card" elements to display each book. @started(26-02-03 09:44) @done(26-02-03 10:03) @lasted(19m30s)
+✔ Create flexbox or gird library which displays the books in a readable and responsive manner @done(26-02-03 10:04)
+☐ Create header which holds a "New Book" button
+☐ Style "New Book" form submission
