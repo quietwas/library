@@ -1,12 +1,15 @@
-const myLibrary = []
+let myLibrary = []
 const library = document.querySelector(".library")
+const newBook = document.querySelector(".new-book")
+const dialog = document.querySelector("dialog")
+const form = document.querySelector("form")
 
 function Book(title, author, pages, read) {
     this.title = title
     this.author = author
     this.pages = pages
     this.read = read
-    const uid = crypto.randomUUID
+    this.uid = crypto.randomUUID()
 }
 
 function addBookToLibrary(title, author, pages, read) {
@@ -30,6 +33,8 @@ function displayLibrary() {
         pages.className = "pages"
         pages.textContent = `${myLibrary[i].pages} pages`
         const read = document.createElement("button")
+        read.className = "status"
+        read.id = myLibrary[i].uid
         if (myLibrary[i].read) {
             read.textContent = "Read"
             read.style.backgroundColor = "rgba(0, 255, 0, 0.2)"
@@ -38,6 +43,8 @@ function displayLibrary() {
             read.style.backgroundColor = "rgba(255, 0, 0, 0.2)"
         }
         const remove = document.createElement("button")
+        remove.className = "remove"
+        remove.id = myLibrary[i].uid
         remove.textContent = "Remove"
         div.appendChild(title)
         div.appendChild(author)
@@ -49,7 +56,44 @@ function displayLibrary() {
     }
 }
 
-addBookToLibrary("The Hobbit", "J.R.R Tolkien", 297, true)
-addBookToLibrary("Game of Thrones", "George R.R Martin", 367, false)
+newBook.addEventListener("click", () => {
+    dialog.showModal()
+})
 
-displayLibrary()
+form.addEventListener("submit", (e) => {
+    e.preventDefault()
+    const title = document.querySelector("#title").value
+    const author = document.querySelector("#author").value
+    const pages = document.querySelector("#pages").value
+    const read = document.querySelector("#read").checked
+
+    addBookToLibrary(title, author, pages, read)
+    dialog.close()
+    displayLibrary()
+})
+
+library.addEventListener("click", (e) => {
+    if (e.target.classList.contains("status")){
+        const bookID = e.target.id
+
+        const book = myLibrary.find(item => item.uid === bookID)
+
+        if (book){
+            book.read = !book.read
+        }
+
+        displayLibrary()
+    }
+    if (e.target.classList.contains("remove")){
+        const bookID = e.target.id
+
+        const index = myLibrary.findIndex(item => item.uid === bookID);
+        console.log(index);
+        
+        if (index !== -1) {
+            myLibrary.splice(index, 1)
+        }
+
+        displayLibrary()
+    }
+})
